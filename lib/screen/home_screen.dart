@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../helper/ad_helper.dart';
 import '../helper/global.dart';
 import '../helper/pref.dart';
 import '../model/home_type.dart';
@@ -63,8 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
       //body
       body: ListView(
-        padding: EdgeInsets.symmetric(
-            horizontal: mq.width * .04, vertical: mq.height * .015),
+        padding: EdgeInsets.only(
+          top: mq.height * .03, // Adjust this value to add space at the top
+          left: mq.width * .04,
+          right: mq.width * .04,
+          bottom: mq.height * .015,
+        ),
         children: HomeType.values.map((e) => HomeCard(homeType: e)).toList(),
       ),
     );

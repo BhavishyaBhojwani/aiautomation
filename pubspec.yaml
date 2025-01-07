@@ -64,6 +64,7 @@ dependencies:
 
   # Facebook Ads
   easy_audience_network: ^0.0.6
+  speech_to_text: ^6.6.2
 
 dev_dependencies:
   flutter_test:

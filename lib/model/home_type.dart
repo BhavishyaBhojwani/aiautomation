@@ -1,3 +1,4 @@
+import 'package:ai_assistant/screen/feature/speech_to_text_feature.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,6 +46,7 @@ extension MyHomeType on HomeType {
         HomeType.aiChatBot => () => Get.to(() => const ChatBotFeature()),
         HomeType.aiImage => () => Get.to(() => const ImageFeature()),
         HomeType.aiTranslator => () => Get.to(() => const TranslatorFeature()),
-        HomeType.aiSpeechToText => () {},
+        HomeType.aiSpeechToText => () =>
+            Get.to(() => const SpeechToTextFeature()),
       };
 }
