@@ -120,6 +120,40 @@ class APIs {
     }
   }
 
+  static Future<String> speechToText(File audioFile) async {
+    try {
+      // API Endpoint for Whisper
+      final url = Uri.parse('https://api.openai.com/v1/audio/transcriptions');
+
+      // Prepare the request
+      final request = http.MultipartRequest('POST', url)
+        ..headers[HttpHeaders.authorizationHeader] = 'Bearer $apiKey'
+        ..fields['model'] = 'whisper-1'
+        ..fields['language'] =
+            'en' // Optional: Specify language (e.g., 'en' for English)
+        ..files.add(await http.MultipartFile.fromPath('file', audioFile.path));
+
+      // Send the request
+      final response = await request.send();
+
+      // Handle the response
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final data = jsonDecode(responseBody);
+
+        log('Whisper response: $data');
+        return data['text']; // Extract transcribed text
+      } else {
+        final errorResponse = await response.stream.bytesToString();
+        log('Whisper Error: $errorResponse');
+        return 'Error: Unable to transcribe audio.';
+      }
+    } catch (e) {
+      log('speechToTextE: $e');
+      return 'Something went wrong (Try again in sometime).';
+    }
+  }
+
   static Future<String> googleTranslate(
       {required String from, required String to, required String text}) async {
     try {

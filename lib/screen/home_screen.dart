@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       //ad
-      bottomNavigationBar: AdHelper.nativeBannerAd(),
+      // bottomNavigationBar: AdHelper.nativeBannerAd(),
 
       //body
       body: ListView(

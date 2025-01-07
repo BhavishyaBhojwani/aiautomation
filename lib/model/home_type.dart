@@ -5,7 +5,7 @@ import '../screen/feature/chatbot_feature.dart';
 import '../screen/feature/image_feature.dart';
 import '../screen/feature/translator_feature.dart';
 
-enum HomeType { aiChatBot, aiImage, aiTranslator }
+enum HomeType { aiChatBot, aiImage, aiTranslator, aiSpeechToText }
 
 extension MyHomeType on HomeType {
   //title
@@ -13,6 +13,7 @@ extension MyHomeType on HomeType {
         HomeType.aiChatBot => 'AI ChatBot',
         HomeType.aiImage => 'AI Image Creator',
         HomeType.aiTranslator => 'Language Translator',
+        HomeType.aiSpeechToText => 'Speech to Text',
       };
 
   //lottie
@@ -20,6 +21,7 @@ extension MyHomeType on HomeType {
         HomeType.aiChatBot => 'ai_hand_waving.json',
         HomeType.aiImage => 'ai_play.json',
         HomeType.aiTranslator => 'ai_ask_me.json',
+        HomeType.aiSpeechToText => 'ai_speech_to_text.json',
       };
 
   //for alignment
@@ -27,6 +29,7 @@ extension MyHomeType on HomeType {
         HomeType.aiChatBot => true,
         HomeType.aiImage => false,
         HomeType.aiTranslator => true,
+        HomeType.aiSpeechToText => false,
       };
 
   //for padding
@@ -34,13 +37,14 @@ extension MyHomeType on HomeType {
         HomeType.aiChatBot => EdgeInsets.zero,
         HomeType.aiImage => const EdgeInsets.all(20),
         HomeType.aiTranslator => EdgeInsets.zero,
+        HomeType.aiSpeechToText => const EdgeInsets.all(20),
       };
-
 
   //for navigation
   VoidCallback get onTap => switch (this) {
         HomeType.aiChatBot => () => Get.to(() => const ChatBotFeature()),
         HomeType.aiImage => () => Get.to(() => const ImageFeature()),
         HomeType.aiTranslator => () => Get.to(() => const TranslatorFeature()),
+        HomeType.aiSpeechToText => () {},
       };
 }
