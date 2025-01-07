@@ -1,4 +1,5 @@
 import 'package:ai_assistant/screen/feature/speech_to_text_feature.dart';
+import 'package:ai_assistant/screen/feature/text_to_speech.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,7 +7,13 @@ import '../screen/feature/chatbot_feature.dart';
 import '../screen/feature/image_feature.dart';
 import '../screen/feature/translator_feature.dart';
 
-enum HomeType { aiChatBot, aiImage, aiTranslator, aiSpeechToText }
+enum HomeType {
+  aiChatBot,
+  aiImage,
+  aiTranslator,
+  aiSpeechToText,
+  aiTextToSpeech
+}
 
 extension MyHomeType on HomeType {
   //title
@@ -15,6 +22,7 @@ extension MyHomeType on HomeType {
         HomeType.aiImage => 'AI Image Creator',
         HomeType.aiTranslator => 'Language Translator',
         HomeType.aiSpeechToText => 'Speech to Text',
+        HomeType.aiTextToSpeech => 'Text to Speech',
       };
 
   //lottie
@@ -23,6 +31,7 @@ extension MyHomeType on HomeType {
         HomeType.aiImage => 'ai_play.json',
         HomeType.aiTranslator => 'ai_ask_me.json',
         HomeType.aiSpeechToText => 'ai_speech_to_text.json',
+        HomeType.aiTextToSpeech => 'ai_text_to_speech.json',
       };
 
   //for alignment
@@ -31,6 +40,7 @@ extension MyHomeType on HomeType {
         HomeType.aiImage => false,
         HomeType.aiTranslator => true,
         HomeType.aiSpeechToText => false,
+        HomeType.aiTextToSpeech => true,
       };
 
   //for padding
@@ -39,6 +49,7 @@ extension MyHomeType on HomeType {
         HomeType.aiImage => const EdgeInsets.all(20),
         HomeType.aiTranslator => EdgeInsets.zero,
         HomeType.aiSpeechToText => const EdgeInsets.all(20),
+        HomeType.aiTextToSpeech => const EdgeInsets.all(20),
       };
 
   //for navigation
@@ -48,5 +59,6 @@ extension MyHomeType on HomeType {
         HomeType.aiTranslator => () => Get.to(() => const TranslatorFeature()),
         HomeType.aiSpeechToText => () =>
             Get.to(() => const SpeechToTextFeature()),
+        HomeType.aiTextToSpeech => () => Get.to(() => const TextToSpeech()),
       };
 }
