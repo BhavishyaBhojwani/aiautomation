@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'dart:convert';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
@@ -117,35 +118,50 @@ class _SpeechToTextFeatureState extends State<SpeechToTextFeature> {
           ),
         ],
       ),
-      body: Obx(
-        () => ListView.builder(
-          controller: _scrollController,
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          itemCount: _messages.length,
-          itemBuilder: (context, index) {
-            final message = _messages[index];
-            final isUser = message['role'] == 'user';
+      body: Stack(
+        children: [
+          // Chat messages
+          Obx(
+            () => ListView.builder(
+              controller: _scrollController,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final message = _messages[index];
+                final isUser = message['role'] == 'user';
 
-            return Align(
-              alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 5),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: isUser ? Colors.blue : Colors.grey[300],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  message['content']!,
-                  style: TextStyle(
-                    color: isUser ? Colors.white : Colors.black,
+                return Align(
+                  alignment:
+                      isUser ? Alignment.centerRight : Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: isUser ? Colors.blue : Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      message['content']!,
+                      style: TextStyle(
+                        color: isUser ? Colors.white : Colors.black,
+                      ),
+                    ),
                   ),
-                ),
+                );
+              },
+            ),
+          ),
+          // Lottie animation when mic is on
+          if (_isListening)
+            Center(
+              child: Lottie.asset(
+                'assets/lottie/lottie_simple.json',
+                width: 150,
+                height: 150,
               ),
-            );
-          },
-        ),
+            ),
+        ],
       ),
     );
   }
