@@ -1,3 +1,4 @@
+import 'package:ai_assistant/screen/feature/speech_to_speech.dart';
 import 'package:ai_assistant/screen/feature/speech_to_text_feature.dart';
 import 'package:ai_assistant/screen/feature/text_to_speech.dart';
 import 'package:flutter/material.dart';
@@ -12,17 +13,19 @@ enum HomeType {
   aiImage,
   aiTranslator,
   aiSpeechToText,
-  aiTextToSpeech
+  aiTextToSpeech,
+  aiSpeechToSpeech,
 }
 
 extension MyHomeType on HomeType {
   //title
   String get title => switch (this) {
-        HomeType.aiChatBot => 'AI ChatBot',
+        HomeType.aiChatBot => 'Text to Text',
         HomeType.aiImage => 'AI Image Creator',
         HomeType.aiTranslator => 'Language Translator',
         HomeType.aiSpeechToText => 'Speech to Text',
         HomeType.aiTextToSpeech => 'Text to Speech',
+        HomeType.aiSpeechToSpeech => 'Speech to Speech',
       };
 
   //lottie
@@ -32,6 +35,7 @@ extension MyHomeType on HomeType {
         HomeType.aiTranslator => 'ai_ask_me.json',
         HomeType.aiSpeechToText => 'ai_speech_to_text.json',
         HomeType.aiTextToSpeech => 'ai_text_to_speech.json',
+        HomeType.aiSpeechToSpeech => 'ai_speech-to_speech.json',
       };
 
   //for alignment
@@ -41,6 +45,7 @@ extension MyHomeType on HomeType {
         HomeType.aiTranslator => true,
         HomeType.aiSpeechToText => false,
         HomeType.aiTextToSpeech => true,
+        HomeType.aiSpeechToSpeech => false,
       };
 
   //for padding
@@ -50,6 +55,7 @@ extension MyHomeType on HomeType {
         HomeType.aiTranslator => EdgeInsets.zero,
         HomeType.aiSpeechToText => const EdgeInsets.all(20),
         HomeType.aiTextToSpeech => const EdgeInsets.all(20),
+        HomeType.aiSpeechToSpeech => const EdgeInsets.all(20),
       };
 
   //for navigation
@@ -60,5 +66,7 @@ extension MyHomeType on HomeType {
         HomeType.aiSpeechToText => () =>
             Get.to(() => const SpeechToTextFeature()),
         HomeType.aiTextToSpeech => () => Get.to(() => const TextToSpeech()),
+        HomeType.aiSpeechToSpeech => () =>
+            Get.to(() => const SpeechToSpeechTranslation()),
       };
 }

@@ -51,8 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: Obx(() => Icon(
                   _isDarkMode.value
-                      ? Icons.brightness_2_rounded
-                      : Icons.brightness_5_rounded,
+                      ? Icons.dark_mode_rounded
+                      : Icons.light_mode_rounded,
                   size: 26)))
         ],
       ),
