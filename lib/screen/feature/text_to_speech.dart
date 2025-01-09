@@ -29,10 +29,35 @@ class _TextToSpeechState extends State<TextToSpeech> {
     super.dispose();
   }
 
+  // Future<void> _speak(String text) async {
+  //   if (text.isNotEmpty) {
+  //     setState(() => _isSpeaking = true);
+  //     await _flutterTts.speak(text);
+  //     _flutterTts.setCompletionHandler(() {
+  //       setState(() => _isSpeaking = false);
+  //     });
+  //   }
+  // }
+
   Future<void> _speak(String text) async {
     if (text.isNotEmpty) {
+      // Preprocess text to minimize long pauses at dots
+      final processedText =
+          text.replaceAll('. ', '.'); // Shorten pauses at periods
+
+      // Update state to indicate speaking has started
       setState(() => _isSpeaking = true);
-      await _flutterTts.speak(text);
+
+      // Set speech settings (optional, adjust as needed)
+      await _flutterTts
+          .setSpeechRate(0.5); // Adjust speed (0.5 for moderate speed)
+      await _flutterTts.setPitch(1.0); // Normal pitch
+      await _flutterTts.setVolume(1.0); // Full volume
+
+      // Start speaking the processed text
+      await _flutterTts.speak(processedText);
+
+      // Set a completion handler to update the state when speaking ends
       _flutterTts.setCompletionHandler(() {
         setState(() => _isSpeaking = false);
       });
@@ -47,7 +72,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
   Future<String> _getAnswerFromChatGPT(String prompt) async {
     const apiKey =
         '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';
-    ; // Replace with your OpenAI API key
+    ;
     const apiUrl = 'https://api.openai.com/v1/chat/completions';
 
     try {
@@ -79,9 +104,33 @@ class _TextToSpeechState extends State<TextToSpeech> {
     }
   }
 
+  // Future<void> _sendTextForSpeech() async {
+  //   final text = _textController.text.trim();
+  //   if (text.isNotEmpty) {
+  //     _messages.add({'role': 'user', 'content': text});
+  //     _textController.clear();
+  //     setState(() {});
+  //     _scrollToBottom();
+
+  //     // Call API to get answer
+  //     setState(() => _isLoading = true);
+  //     final response = await _getAnswerFromChatGPT(text);
+  //     setState(() => _isLoading = false);
+
+  //     // Add response to messages
+  //     _messages.add({'role': 'ai', 'content': response});
+  //     setState(() {});
+  //     _scrollToBottom();
+
+  //     // Automatically speak AI response
+  //     _speak(response);
+  //   }
+  // }
+
   Future<void> _sendTextForSpeech() async {
     final text = _textController.text.trim();
     if (text.isNotEmpty) {
+      // Add user message
       _messages.add({'role': 'user', 'content': text});
       _textController.clear();
       setState(() {});
@@ -92,13 +141,13 @@ class _TextToSpeechState extends State<TextToSpeech> {
       final response = await _getAnswerFromChatGPT(text);
       setState(() => _isLoading = false);
 
+      // Automatically speak AI response immediately
+      _speak(response);
+
       // Add response to messages
       _messages.add({'role': 'ai', 'content': response});
       setState(() {});
       _scrollToBottom();
-
-      // Automatically speak AI response
-      _speak(response);
     }
   }
 
