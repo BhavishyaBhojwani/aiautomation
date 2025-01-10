@@ -1,18 +1,24 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:porcupine_flutter/porcupine_manager.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter/services.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class WakeWordScreen extends StatefulWidget {
+  const WakeWordScreen({super.key});
+
   @override
   _WakeWordScreenState createState() => _WakeWordScreenState();
 }
 
 class _WakeWordScreenState extends State<WakeWordScreen> {
   PorcupineManager? _porcupineManager;
+  bool _showLottie = false;
+  AudioPlayer _audioPlayer = AudioPlayer();
 
   final String accessKey =
       "7laEJEOP/kGxDnDs4eBaAQuIwTu0fVCZRFfVNtbB157BEibEjr3fXA==";
@@ -28,11 +34,11 @@ class _WakeWordScreenState extends State<WakeWordScreen> {
         priority: NotificationPriority.MAX,
         enableVibration: false,
       ),
-      iosNotificationOptions: IOSNotificationOptions(
+      iosNotificationOptions: const IOSNotificationOptions(
         showNotification: true,
         playSound: true,
       ),
-      foregroundTaskOptions: ForegroundTaskOptions(
+      foregroundTaskOptions: const ForegroundTaskOptions(
         interval: 5000,
         isOnceEvent: false,
         autoRunOnBoot: true,
@@ -85,12 +91,22 @@ class _WakeWordScreenState extends State<WakeWordScreen> {
     return file.path;
   }
 
-  void _wakeWordCallback(int keywordIndex) {
+  Future<void> _wakeWordCallback(int keywordIndex) async {
     // Perform an action when the wake word is detected
     print("Wake word detected! Keyword index: $keywordIndex");
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Wake word detected!")),
-    );
+    await _audioPlayer.play(AssetSource('audio/hey.mp3'));
+
+    // Show Lottie animation
+    setState(() {
+      _showLottie = true;
+    });
+
+    // Hide the Lottie animation after 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _showLottie = false;
+      });
+    });
   }
 
   @override
@@ -105,10 +121,24 @@ class _WakeWordScreenState extends State<WakeWordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Wake Word Detection"),
+        title: const Text("Wake Word Detection"),
       ),
-      body: Center(
-        child: Text("Listening for wake word..."),
+      body: Stack(
+        children: [
+          if (_showLottie)
+            Center(
+              child: Lottie.asset(
+                'assets/lottie/lottie_simple.json',
+                width: 200,
+                height: 200,
+                fit: BoxFit.contain,
+              ),
+            )
+          else
+            const Center(
+              child: Text("Listening for wake word..."),
+            ),
+        ],
       ),
     );
   }

@@ -72,7 +72,6 @@ class _TextToSpeechState extends State<TextToSpeech> {
   Future<String> _getAnswerFromChatGPT(String prompt) async {
     const apiKey =
         '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';
-    ;
     const apiUrl = 'https://api.openai.com/v1/chat/completions';
 
     try {

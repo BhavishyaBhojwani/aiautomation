@@ -53,6 +53,7 @@ dependencies:
   # For AI Image Generation
   dart_openai: ^5.1.0
   cached_network_image: ^3.3.1
+  audioplayers: ^6.1.0 
   
   # Google Gemini Ai Integration
   google_generative_ai: ^0.4.3
@@ -91,6 +92,7 @@ flutter:
     - assets/images/
     - assets/lottie/
     - assets/porcupine/
+    - assets/audio/
   #   - images/a_dot_ham.jpeg
 
   # fonts:
